@@ -70,7 +70,7 @@ const getFinalTable = () => {
  *
  * @param num 需要填的空
  */
-const getBlankTable = (num = 2) => {
+const getBlankTable = (num = 49) => {
     let table = getFinalTable();
     // if (num < 9) {
     //     throw new Error("你别玩了")
