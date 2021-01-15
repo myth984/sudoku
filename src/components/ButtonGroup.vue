@@ -12,7 +12,6 @@
     >
       {{ i.label }}
     </button>
-    {{ $root.curIndex }}
   </div>
 </template>
 
@@ -74,8 +73,9 @@ export default {
   -webkit-user-select: none;
   -ms-user-select: none;
   padding: 12px 20px;
-  font-size: 14px;
+  font-size: 20px;
   border-radius: 4px;
+  font-family: dingmou, Avenir, Helvetica, Arial, sans-serif;
 }
 .btn-handle:active {
   border-color: #d3b472;

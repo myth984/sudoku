@@ -48,10 +48,12 @@ export default {
       if (this.cell.needFill) {
         return {
           color: "green",
-          "font-size": "25px",
+          "font-size": "30px",
         };
       } else {
-        return {};
+        return {
+          "font-size": "25px",
+        };
       }
     },
     cellStyle() {
@@ -80,6 +82,7 @@ export default {
   display: grid;
   justify-items: center;
   align-items: center;
+
 }
 .cell:hover {
   background-color: #7a8383;

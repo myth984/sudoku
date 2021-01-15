@@ -4,7 +4,8 @@
       <input v-model="fillSum" class="sum-input" placeholder="需要填的数量" />
       <button @click="restart" class="btn">重来</button>
     </div>
-    <div>时间:{{ gameTime }}</div>
+
+    <div style="font-size: 25px">时间:{{ gameTime }}</div>
     <Table :table="table"> </Table>
     <ButtonGroup :table="table"></ButtonGroup>
   </div>
@@ -38,7 +39,13 @@ export default {
         alert("输个阳间数");
         return;
       }
+      this.gameTime = 0;
       this.table = getBlankTable(this.fillSum);
+      this.$once("startGame", () => {
+        this.timeId = setInterval(() => {
+          this.gameTime++;
+        }, 1000);
+      });
     },
   },
   mounted() {
@@ -52,8 +59,18 @@ export default {
 </script>
 
 <style>
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background-color: #294051;
+  font-family: dingmou, Avenir, Helvetica, Arial, sans-serif;
+}
+input,
+button {
+  font-family: dingmou, Avenir, Helvetica, Arial, sans-serif;
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -62,13 +79,6 @@ export default {
   grid-template-rows: auto auto;
   align-items: center;
   justify-items: center;
-
-}
-html,
-body {
-  padding: 0;
-  margin: 0;
-    background-color: #294051;
 }
 </style>
 <style  scoped>
@@ -90,9 +100,10 @@ body {
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
-  padding: 12px 20px;
-  font-size: 14px;
+  padding: 5px 10px 10px 10px;
+  font-size: 24px;
   border-radius: 4px;
+  font-family: dingmou, Avenir, Helvetica, Arial, sans-serif;
 }
 .sum-input {
   -webkit-appearance: none;
