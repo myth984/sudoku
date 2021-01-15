@@ -17,7 +17,8 @@ export default {
         display: "grid",
         "grid-template-columns": "repeat(3, 50px)",
         "grid-template-rows": "repeat(3, 50px)",
-        "grid-gap": "1px 1px",
+        // "grid-gap": "1px 1px",
+        border:"2px solid #000"
       };
     },
   },

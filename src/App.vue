@@ -63,7 +63,8 @@ html,
 body {
   padding: 0;
   margin: 0;
-  background-color: #294051;
+  /* background-color: #294051; */
+  /* color: #f3f3f0; */
   font-family: dingmou, Avenir, Helvetica, Arial, sans-serif;
 }
 input,
@@ -74,7 +75,6 @@ button {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #f3f3f0;
   display: grid;
   grid-template-rows: auto auto;
   align-items: center;
@@ -88,9 +88,10 @@ button {
   line-height: 1;
   white-space: nowrap;
   cursor: pointer;
-  background: #ae927e;
-  border: 1px solid #ae927e;
-  color: #f4f4f1;
+  /* background: #ae927e; */
+  background: #fff;
+  border: 2px solid #000;
+  color: #000;
   -webkit-appearance: none;
   text-align: center;
   box-sizing: border-box;
@@ -100,19 +101,21 @@ button {
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
-  padding: 5px 10px 10px 10px;
+  padding: 3px 10px 9px 10px;
   font-size: 24px;
-  border-radius: 4px;
+  border-radius: 0px;
   font-family: dingmou, Avenir, Helvetica, Arial, sans-serif;
 }
 .sum-input {
   -webkit-appearance: none;
-  background-color: #fff;
+  /* background-color: #fff; */
   background-image: none;
-  border-radius: 4px;
-  border: 1px solid #dcdfe6;
+  border-radius: 0px;
+  /* border: 1px solid #dcdfe6; */
+  border: 2px solid #000;
   box-sizing: border-box;
-  color: #606266;
+  /* color: #606266; */
+  color: #000;
   font-size: inherit;
   height: 40px;
   line-height: 40px;

@@ -43,7 +43,7 @@ export default {
   justify-items: center;
   align-items: center;
   justify-content: center;
-  border: 1px solid;
+  border: 3px solid #000;
   width: fit-content;
   /* cursor: url("~@/assets/images/1.png") 1 1, auto; */
 }

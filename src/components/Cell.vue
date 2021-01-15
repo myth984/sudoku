@@ -34,7 +34,7 @@ export default {
         // 有相同数据 验证不通过 禁止0.5秒
         this.cell.value = undefined;
         let tmpBackground = ev.target.style.background;
-        ev.target.style.background = "#D55840";
+        ev.target.style.background = "#eb2d2d46";
         this.cell.allowFill = false;
         setTimeout(() => {
           ev.target.style.background = tmpBackground;
@@ -48,7 +48,7 @@ export default {
       if (this.cell.needFill) {
         return {
           color: "green",
-          "font-size": "30px",
+          "font-size": "35px",
         };
       } else {
         return {
@@ -59,7 +59,10 @@ export default {
     cellStyle() {
       if (this.cell.hint) {
         return {
-          background: "#D3B472",
+          background: "#0000004f",
+          color: "#fff",
+          // "box-sizing": "border-box",
+          // border: "5px solid #000",
         };
       } else {
         return {};
@@ -78,14 +81,13 @@ export default {
 .cell {
   width: 50px;
   height: 50px;
-  border: 1px solid;
+  border: 1px solid #000;
   display: grid;
   justify-items: center;
   align-items: center;
-
 }
 .cell:hover {
-  background-color: #7a8383;
+  background-color: #0000004f;
 }
 .user-fill {
   color: green;
