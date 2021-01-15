@@ -62,12 +62,13 @@ export default {
   grid-template-rows: auto auto;
   align-items: center;
   justify-items: center;
-  background-color: #294051;
+
 }
 html,
 body {
   padding: 0;
   margin: 0;
+    background-color: #294051;
 }
 </style>
 <style  scoped>

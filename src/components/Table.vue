@@ -24,7 +24,7 @@ export default {
   computed: {
     tableStyle() {
       return {
-        cursor: 'url("/images/' + this.$root.curIndex + '.png") 1 1, auto',
+        cursor: 'url("./images/' + this.$root.curIndex + '.png") 1 1, auto',
       };
     },
   },
