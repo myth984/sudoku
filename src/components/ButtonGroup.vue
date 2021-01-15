@@ -9,7 +9,6 @@
       "
       v-for="(i, index) of buttons"
       :key="index"
-      v-on:keyup="keyUp($event)"
     >
       {{ i.label }}
     </button>
@@ -50,9 +49,6 @@ export default {
           cell.hint = true;
         });
     },
-    keyUp(ev) {
-      console.log(ev);
-    },
   },
   mounted() {
     document.onkeydown = (e) => {
@@ -60,7 +56,6 @@ export default {
       let ev =
         e || event || window.event || arguments.callee.caller.arguments[0];
       let i = "1";
-      console.log(ev.keyCode);
       switch (ev.keyCode) {
         case 48:
           i = "×";
