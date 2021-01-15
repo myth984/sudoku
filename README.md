@@ -1,6 +1,6 @@
 # sudoku
 
-数独游戏
+[数独游戏](http://myth.icu/sudoku/)
 
 
 # 未完成
