@@ -6,27 +6,52 @@
     </div>
 
     <div style="font-size: 25px">时间:{{ gameTime }}</div>
-    <Table :table="table"> </Table>
-    <ButtonGroup :table="table"></ButtonGroup>
+    <div style="display: grid; grid-template-columns: repeat(2, auto)">
+      <div
+        style="
+          display: grid;
+          grid-template-rows: repeat(2, auto);
+          justify-items: center;
+        "
+      >
+        <Table :table="table"> </Table>
+        <ButtonGroup :table="table"></ButtonGroup>
+      </div>
+      <div>
+        <ChartRoom ref="chartRoom" :user="user"></ChartRoom>
+      </div>
+    </div>
+    {{ table.id }}
+    <Dialog ref="dialog">
+      <input @keyup.enter="submitName($event)" placeholder="怎么称呼" />
+    </Dialog>
   </div>
 </template>
 
 <script>
 import Table from "./components/Table";
 import ButtonGroup from "./components/ButtonGroup";
-import { getBlankTable } from "@/assets/algo";
+import ChartRoom from "./components/ChartRoom";
+import Dialog from "./components/Dialog";
+import { getBlankTable, generateTable } from "@/assets/algo";
+import User from "@/assets/user";
+import { getOnlineTable, listenTableChange } from "@/api/api";
+
 export default {
   name: "App",
   components: {
     Table,
     ButtonGroup,
+    ChartRoom,
+    Dialog,
   },
   data() {
     return {
-      table: getBlankTable(),
+      table: {},
       fillSum: 49,
       gameTime: 0,
       timeId: undefined,
+      user: undefined,
     };
   },
   methods: {
@@ -47,12 +72,36 @@ export default {
         }, 1000);
       });
     },
+    async submitName(e) {
+      let name = e.target.value;
+      if (!name) {
+        return;
+      }
+      this.user = new User(name);
+      // 登陆
+      await this.user.login();
+      // 加入聊天室
+      this.user.joinChartRoom(this.$refs.chartRoom.msgList);
+      this.$refs.chartRoom.startListen();
+      this.$refs.dialog.dialogVisible = false;
+    },
+    initTable() {
+      // 将线上的数据构建成标准对象
+      getOnlineTable().then((table) => {
+        this.table = generateTable(table);
+      });
+    },
   },
   mounted() {
     this.$once("startGame", () => {
       this.timeId = setInterval(() => {
         this.gameTime++;
       }, 1000);
+    });
+    this.initTable();
+    // 开始监听table变化
+    listenTableChange((table) => {
+      this.table = generateTable(table);
     });
   },
 };

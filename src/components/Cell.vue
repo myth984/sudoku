@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { updateTable } from "@/api/api";
 export default {
   props: ["cell"],
   methods: {
@@ -18,6 +19,7 @@ export default {
       this.$parent.$parent.$parent.$emit("startGame");
       if (this.$root.curIndex === "×") {
         this.cell.value = undefined;
+        updateTable(this.cell.table)
       } else {
         this.cell.value = this.$root.curIndex;
       }
@@ -25,6 +27,8 @@ export default {
       let verify = this.cell.table.verify(this.cell);
       if (verify) {
         // 验证通过
+        // 后端提交
+        updateTable(this.cell.table)
         // 验证是否通关
         if (this.cell.table.verifyPass()) {
           window.clearInterval(this.$parent.$parent.$parent.timeId);

@@ -1,5 +1,5 @@
 <template>
-  <div class="table" :style="tableStyle">
+  <div class="table" :style="tableStyle" v-if="this.table.boxs !== undefined">
     <Box
       v-for="(box, index) of this.table.getBoxs()"
       :key="index"

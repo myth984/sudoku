@@ -1,13 +1,13 @@
 class Cell {
-    constructor(value, x, y, box, table) {
+    constructor(value, x, y, box, table, needFill = false) {
         this.x = x;
         this.y = y;
         this.box = box;
         this.weights = 100;
-        this.value = String(value);
+        this.value = value === undefined ? undefined : String(value);
         this.table = table;
         // 需要被填充
-        this.needFill = false;
+        this.needFill = needFill;
         // 提示
         this.hint = false;
         // 允许被填充

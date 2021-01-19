@@ -13,21 +13,31 @@ class Table {
     }
 
     getCells() {
-            if (this.cells !== undefined) {
-                return this.cells
-            } else {
-                let result = []
-                this.boxs.forEach((box) => {
-                    result = result.concat(box.getCells())
-                })
-                this.cells = result;
-                return result;
-            }
+        if (this.cells !== undefined) {
+            return this.cells
+        } else {
+            let result = []
+            this.boxs.forEach((box) => {
+                result = result.concat(box.getCells())
+            })
+            this.cells = result;
+            // 建立映射关系
+            this.positionMap = {};
+            this.cells.forEach(cell => {
+                this.positionMap[String(cell.x) + String(cell.y)] = cell
+            })
+            return result;
         }
-        /**
-         * 获取权重最大的单元格
-         * @param random 随机值 为0 则不随机 取第一个 random 越大随机性越强
-         */
+    }
+
+    findCellByPosition(xy) {
+        return this.positionMap[xy];
+    }
+
+    /**
+     * 获取权重最大的单元格
+     * @param random 随机值 为0 则不随机 取第一个 random 越大随机性越强
+     */
     getMaxWeightsCell(random = 0) {
         let cells = this.getCells().filter(cell => cell.value !== undefined);
         cells.sort((a, b) => a.weights > b.weights ? -1 : 1)
