@@ -5,7 +5,7 @@
       <button @click="restart" class="btn">重来</button>
     </div>
 
-    <div style="font-size: 25px">时间:{{ gameTime }}</div>
+    <!-- <div style="font-size: 25px">时间:{{ gameTime }}</div> -->
     <div style="display: grid; grid-template-columns: repeat(2, auto)">
       <div
         style="
@@ -36,7 +36,6 @@ import Dialog from "./components/Dialog";
 import { getBlankTable, generateTable } from "@/assets/algo";
 import User from "@/assets/user";
 import { getOnlineTable, listenTableChange } from "@/api/api";
-
 export default {
   name: "App",
   components: {
@@ -88,7 +87,10 @@ export default {
     initTable() {
       // 将线上的数据构建成标准对象
       getOnlineTable().then((table) => {
-        this.table = generateTable(table);
+        this.table = generateTable(table.data[0]);
+        listenTableChange(this.table, (table) => {
+          this.table = generateTable(table);
+        });
       });
     },
   },
@@ -99,10 +101,6 @@ export default {
       }, 1000);
     });
     this.initTable();
-    // 开始监听table变化
-    listenTableChange((table) => {
-      this.table = generateTable(table);
-    });
   },
 };
 </script>

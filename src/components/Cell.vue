@@ -17,18 +17,27 @@ export default {
         return;
       }
       this.$parent.$parent.$parent.$emit("startGame");
+      let user = this.$root.$children[0].user;
       if (this.$root.curIndex === "×") {
+        // 如果是x直接更新
         this.cell.value = undefined;
-        updateTable(this.cell.table)
+        updateTable(this.cell.table);
+        user.sendMsg(
+          `[${user.name}] 将 x:${this.cell.x},y:${this.cell.y} 清空了`
+        );
       } else {
         this.cell.value = this.$root.curIndex;
       }
       // 验证是否可以填空
       let verify = this.cell.table.verify(this.cell);
       if (verify) {
-        // 验证通过
+        // 验证通过 再更新
+        this.$root.$children[0];
         // 后端提交
-        updateTable(this.cell.table)
+        updateTable(this.cell.table);
+        user.sendMsg(
+          `[${user.name}] 将 x:${this.cell.x},y:${this.cell.y} 修改为:${this.cell.value}`
+        );
         // 验证是否通关
         if (this.cell.table.verifyPass()) {
           window.clearInterval(this.$parent.$parent.$parent.timeId);
@@ -60,8 +69,11 @@ export default {
         };
       }
     },
+    hint(){
+      return this.cell.value === this.$root.curIndex;
+    },
     cellStyle() {
-      if (this.cell.hint) {
+      if (this.hint) {
         return {
           background: "#0000004f",
           color: "#fff",
@@ -72,11 +84,6 @@ export default {
         return {};
       }
     },
-  },
-  mounted() {
-    if (this.cell.value === this.$root.curIndex) {
-      this.cell.hint = true;
-    }
   },
 };
 </script>

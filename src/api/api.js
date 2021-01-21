@@ -1,7 +1,5 @@
 const { Realtime } = require('leancloud-realtime');
 const AV = require('leancloud-storage/live-query');
-import _ from "lodash"
-// const { Query, User } = AV;
 const realtime = new Realtime({
     appId: 'gOmqUStGjqpV2o8oMJpeq2qD-gzGzoHsz',
     appKey: 'fv1R6bFH7HBEGpIbYjhVRf0I',
@@ -12,6 +10,13 @@ AV.init({
     appKey: "fv1R6bFH7HBEGpIbYjhVRf0I",
     serverURL: "https://gomqustg.lc-cn-n1-shared.com"
 });
+
+import cloudbase from "@cloudbase/js-sdk";
+
+const app = cloudbase.init({
+    env: "myth-8ghne7lfb3b2968a"
+});
+const db = app.database();
 
 
 
@@ -26,34 +31,29 @@ function queryChartRoom(user) {
 }
 
 function insertTable(code, data) {
-    const Table = AV.Object.extend('Table');
-    const table = new Table();
-    let saveData = _.cloneDeep(data);
-    delete saveData.positionMap;
-    table.set("code", code);
-    table.set("data", {
-        cells: data.getCells().map(cell => {
-            return {
-                x: cell.x,
-                y: cell.y,
-                value: cell.value,
-                needFill: cell.needFill
+    getOnlineTable().then(res => {
+        let id = res.data[0]._id;
+        db.collection("Table").doc(id).set({
+            code: code,
+            data: {
+                cells: data.getCells().map(cell => {
+                    return {
+                        x: cell.x,
+                        y: cell.y,
+                        value: cell.value,
+                        needFill: cell.needFill
+                    }
+                })
             }
+        }).then(res => {
+            console.log(res);
+            console.log("生成新的table成功");
         })
-    });
-    table.save().then((todo) => {
-        // 成功保存之后，执行其他逻辑
-        console.log(`保存成功。objectId：${todo.id}`);
-    }, (error) => {
-        // 异常处理
-        console.log("失败了")
-        console.error(error);
-    });
+    })
 }
 
 function getOnlineTable() {
-    const query = new AV.Query('Table');
-    return query.first();
+    return db.collection("Table").where({}).get()
 }
 
 
@@ -62,35 +62,31 @@ function getOnlineTable() {
  */
 function updateTable(table) {
     // 发送填空消息
-    let remoteTable = table.remoteTable
-    remoteTable.set("data", {
-        cells: table.getCells().map(cell => {
-            return {
-                x: cell.x,
-                y: cell.y,
-                value: cell.value,
-                needFill: cell.needFill
-            }
-        })
-    });
-    remoteTable.save().then((todo) => {
-        // 成功保存之后，执行其他逻辑
-        console.log(`保存成功。objectId：${todo.id}`);
-    }, (error) => {
-        // 异常处理
-        console.log("失败了")
-        console.error(error);
-    });
+    let remoteTable = table.remoteTable;
+    db.collection("Table").doc(remoteTable._id).update({
+        data: {
+            cells: table.getCells().map(cell => {
+                return {
+                    x: cell.x,
+                    y: cell.y,
+                    value: cell.value,
+                    needFill: cell.needFill
+                }
+            })
+        }
+    }).then(res => {
+        console.log(res);
+    })
 }
 
 
 
-function listenTableChange(callBack) {
-    const query = new AV.Query('Table');
-    query.subscribe().then((liveQuery) => {
-        liveQuery.on('update', (updatedTodo) => {
-            callBack(updatedTodo)
-        });
+function listenTableChange(table, callBack) {
+    let remoteTable = table.remoteTable;
+    table.watcher = db.collection("Table").doc(remoteTable._id).watch({
+        onChange() {
+            callBack(this.virtualClient.sessionInfo.currentDocs[0])
+        }
     })
 }
 

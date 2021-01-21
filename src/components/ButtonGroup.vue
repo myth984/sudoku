@@ -50,47 +50,6 @@ export default {
         });
     },
   },
-  mounted() {
-    document.onkeydown = (e) => {
-      //事件对象兼容
-      let ev =
-        e || event || window.event || arguments.callee.caller.arguments[0];
-      let i = "1";
-      switch (ev.keyCode) {
-        case 48:
-          i = "×";
-          break;
-        case 49:
-          i = "1";
-          break;
-        case 50:
-          i = "2";
-          break;
-        case 51:
-          i = "3";
-          break;
-        case 52:
-          i = "4";
-          break;
-        case 53:
-          i = "5";
-          break;
-        case 54:
-          i = "6";
-          break;
-        case 55:
-          i = "7";
-          break;
-        case 56:
-          i = "8";
-          break;
-        case 57:
-          i = "9";
-          break;
-      }
-      this.click({ label: i });
-    };
-  },
 };
 </script>
 

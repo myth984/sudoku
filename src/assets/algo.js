@@ -80,9 +80,9 @@ const getFinalTable = () => {
  * 通过data生成table
  */
 const generateTable = (remoteTable) => {
-    let data = remoteTable.get("data").cells
+    let data = remoteTable.data.cells
     let table = new Table();
-    table.code = remoteTable.get("code");
+    table.code = remoteTable.code;
     table.remoteTable = remoteTable;
     // 生成box对象
     for (let r = 0; r < 3; r++) {
@@ -90,7 +90,6 @@ const generateTable = (remoteTable) => {
             table.addBox(new Box(r, c))
         }
     }
-
     // 生成cell对象
     let cellArr = data.map(i => {
         return new Cell(i.value, i.x, i.y, undefined, table, i.needFill)
