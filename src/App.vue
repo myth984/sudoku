@@ -2,7 +2,6 @@
   <div id="app">
     <div>
       <input v-model="fillSum" class="sum-input" placeholder="需要填的数量" />
-      <button @click="restart" class="btn">重来</button>
     </div>
 
     <!-- <div style="font-size: 25px">时间:{{ gameTime }}</div> -->
