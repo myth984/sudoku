@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <div>
-      <input v-model="fillSum" class="sum-input" placeholder="需要填的数量" />
-      <button @click="restart" class="btn">重来</button>
+      <!-- <input v-model="fillSum" class="sum-input" placeholder="需要填的数量" /> -->
+      <!-- <button @click="restart" class="btn">重来</button> -->
     </div>
 
     <!-- <div style="font-size: 25px">时间:{{ gameTime }}</div> -->
@@ -55,6 +55,7 @@ export default {
   },
   methods: {
     restart() {
+      console.log("重开了");
       if (this.fillSum < 10 || this.fillSum > 80) {
         alert("你别玩了");
         return;
@@ -76,13 +77,13 @@ export default {
       if (!name) {
         return;
       }
+      this.$refs.dialog.dialogVisible = false;
       this.user = new User(name);
       // 登陆
       await this.user.login();
       // 加入聊天室
       this.user.joinChartRoom(this.$refs.chartRoom.msgList);
       this.$refs.chartRoom.startListen();
-      this.$refs.dialog.dialogVisible = false;
     },
     initTable() {
       // 将线上的数据构建成标准对象

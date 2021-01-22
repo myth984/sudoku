@@ -4,6 +4,7 @@
       readonly
       style="width: 300px; height: 468px; margin-top: 30px"
       v-model="msg"
+      ref="textarea"
     >
     </textarea>
     <div>
@@ -31,12 +32,17 @@ export default {
     onEnter() {
       this.user.sendMsg(this.user.name + ":" + this.willSendMsg).then(() => {
         this.willSendMsg = "";
+        this.setScrollLastPositon()
       });
     },
     startListen() {
       this.user.data.on(Event.MESSAGE, (message) => {
         this.msgList.push(message.text);
+        this.setScrollLastPositon()
       });
+    },
+    setScrollLastPositon() {
+      this.$refs.textarea.scrollTop= this.$refs.textarea.scrollHeight
     },
   },
   mounted() {},

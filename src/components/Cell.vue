@@ -41,6 +41,10 @@ export default {
         // 验证是否通关
         if (this.cell.table.verifyPass()) {
           window.clearInterval(this.$parent.$parent.$parent.timeId);
+          user.sendMsg(
+            `[${user.name}] 下完了最后一步，重新开始`
+          );
+          this.$root.$children[0].restart();
           alert("恭喜你通关了");
         }
       } else {
@@ -69,7 +73,7 @@ export default {
         };
       }
     },
-    hint(){
+    hint() {
       return this.cell.value === this.$root.curIndex;
     },
     cellStyle() {
