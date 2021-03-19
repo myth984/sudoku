@@ -14,7 +14,7 @@
 </template>
 
 <script>
-var { Event } = require("leancloud-realtime");
+import { listenChartChange } from "@/api/api";
 export default {
   props: ["user"],
   computed: {
@@ -30,25 +30,26 @@ export default {
   },
   methods: {
     onEnter() {
-      this.user.sendMsg(this.user.name + ":" + this.willSendMsg).then(() => {
-        this.willSendMsg = "";
-        this.setScrollLastPositon()
-      });
+      this.user.sendMsg(this.user.name + ":" + this.willSendMsg);
+      this.willSendMsg = "";
+      this.setScrollLastPositon();
     },
     startListen() {
-      this.user.data.on(Event.MESSAGE, (message) => {
-        this.msgList.push(message.text);
-        this.setScrollLastPositon()
+      listenChartChange((message) => {
+        console.log("消息来了");
+        console.log(message);
+        if (message) {
+          this.msgList.push(message.msg);
+        }
+        // console.log(message);
       });
     },
     setScrollLastPositon() {
-      this.$refs.textarea.scrollTop= this.$refs.textarea.scrollHeight
+      this.$refs.textarea.scrollTop = this.$refs.textarea.scrollHeight;
     },
   },
-  mounted() {},
 };
 </script>
-
 
 <style scope>
 input {

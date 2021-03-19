@@ -1,16 +1,3 @@
-const { Realtime } = require('leancloud-realtime');
-const AV = require('leancloud-storage/live-query');
-const realtime = new Realtime({
-    appId: 'gOmqUStGjqpV2o8oMJpeq2qD-gzGzoHsz',
-    appKey: 'fv1R6bFH7HBEGpIbYjhVRf0I',
-    server: 'https://gomqustg.lc-cn-n1-shared.com',
-});
-AV.init({
-    appId: "gOmqUStGjqpV2o8oMJpeq2qD-gzGzoHsz",
-    appKey: "fv1R6bFH7HBEGpIbYjhVRf0I",
-    serverURL: "https://gomqustg.lc-cn-n1-shared.com"
-});
-
 import cloudbase from "@cloudbase/js-sdk";
 
 const app = cloudbase.init({
@@ -19,16 +6,7 @@ const app = cloudbase.init({
 const db = app.database();
 
 
-
-function login(name) {
-    let user = realtime.createIMClient(name);
-    return user;
-}
-
-function queryChartRoom(user) {
-    var query = user.getQuery().equalTo('tr', true);
-    return query.find();
-}
+const chartSocket = new WebSocket("ws://service-66x1nfgh-1252739196.bj.apigw.tencentcs.com/release/websocket");
 
 function insertTable(code, data) {
     getOnlineTable().then(res => {
@@ -79,6 +57,9 @@ function updateTable(table) {
     })
 }
 
+function sendMsg(user, msg) {
+    chartSocket.send(JSON.stringify({ user, msg }));
+}
 
 
 function listenTableChange(table, callBack) {
@@ -90,11 +71,17 @@ function listenTableChange(table, callBack) {
     })
 }
 
+function listenChartChange(callBack) {
+    chartSocket.onmessage = (evt) => {
+        let msgJson = JSON.parse(evt.data)
+        callBack(msgJson)
+    }
+}
 
 
 export {
-    login,
-    queryChartRoom,
+    listenChartChange,
+    sendMsg,
     insertTable,
     getOnlineTable,
     updateTable,

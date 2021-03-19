@@ -80,7 +80,6 @@ export default {
       this.$refs.dialog.dialogVisible = false;
       this.user = new User(name);
       // 登陆
-      await this.user.login();
       // 加入聊天室
       this.user.joinChartRoom(this.$refs.chartRoom.msgList);
       this.$refs.chartRoom.startListen();
