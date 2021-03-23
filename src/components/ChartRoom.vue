@@ -32,20 +32,22 @@ export default {
     onEnter() {
       this.user.sendMsg(this.user.name + ":" + this.willSendMsg);
       this.willSendMsg = "";
-      this.setScrollLastPositon();
+      this.$nextTick(() => {
+        this.setScrollLastPositon();
+      });
     },
     startListen() {
       listenChartChange((message) => {
-        console.log("消息来了");
-        console.log(message);
         if (message) {
           this.msgList.push(message.msg);
+          this.$nextTick(() => {
+            this.setScrollLastPositon();
+          });
         }
-        // console.log(message);
       });
     },
     setScrollLastPositon() {
-      this.$refs.textarea.scrollTop = this.$refs.textarea.scrollHeight;
+      this.$refs.textarea.scrollTop = this.$refs.textarea.scrollHeight + 500;
     },
   },
 };
