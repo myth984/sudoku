@@ -2,13 +2,6 @@
 
 [数独游戏](http://myth.icu/sudoku/)
 
+![image.png](https://i.loli.net/2021/03/23/ckbW9RDN2XeyPl3.png)
 
-# 未完成
-
-游戏时间转分钟
-
-多人
-
-鼠标滑轮
-
-~~键盘按键~~
+欢迎来玩
